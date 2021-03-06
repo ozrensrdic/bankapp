@@ -15,7 +15,6 @@ class CreateBranchesTable extends AbstractMigration
                 PRIMARY KEY (`id`)
             );'
         );
-
     }
 
     protected function down(): void

@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Branch;
 
-use JsonSerializable;
-
-class Branch implements JsonSerializable
+class Branch
 {
     /**
      * @var int
