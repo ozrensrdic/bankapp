@@ -10,6 +10,7 @@ use App\Application\Actions\Branch\AddBranchController;
 use App\Application\Actions\Branch\GetBranchByIdController;
 use App\Application\Actions\Branch\GetBranchesController;
 use App\Application\Actions\Report\GetBranchesBalancesController;
+use App\Application\Actions\Report\GetValuableBranchesController;
 use App\Application\Actions\Customer\AddCustomerController;
 use App\Application\Actions\Customer\GetCustomersController;
 use App\Application\Actions\Customer\GetCustomerByIdController;
@@ -31,6 +32,7 @@ return function (App $app) {
 
     $app->group('/report', function (Group $group) {
         $group->get('/branches/balance[/{balance}/{sort}]', GetBranchesBalancesController::class);
+        $group->get('/valuable/branches', GetValuableBranchesController::class);
     });
 
 
