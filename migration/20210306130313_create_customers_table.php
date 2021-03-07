@@ -11,7 +11,7 @@ class CreateCustomersTable extends AbstractMigration
         $this->execute('CREATE TABLE `customers` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `name` varchar(255) NOT NULL,
-                `balance` decimal(11,3) NOT NULL,
+                `balance` decimal(11,2) NOT NULL,
                 `branch_id` int(11),
                 `created_at` timestamp NOT NULL DEFAULT NOW(),
                 PRIMARY KEY (`id`),

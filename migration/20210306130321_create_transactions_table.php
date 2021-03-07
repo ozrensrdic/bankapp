@@ -14,7 +14,7 @@ class CreateTransactionsTable extends AbstractMigration
                 `sender_branch_id` int(11) NOT NULL,
                 `receiver_sender_id` int(11) NOT NULL,
                 `receiver_branch_id` int(11) NOT NULL,
-                `balance_sent` decimal(11,3) NOT NULL,
+                `balance_sent` decimal(11,2) NOT NULL,
                 `created_at` timestamp NOT NULL DEFAULT NOW(),
                 PRIMARY KEY (`id`),
                 FOREIGN KEY (`sender_customer_id`) REFERENCES customers(`id`),

@@ -31,7 +31,8 @@ class AddBranchController extends Controller
         }
 
         $branchId = $this->pdo->lastInsertId();
-        foreach (explode(',', $customerIds) as $customerId) {
+
+        if ($customerIds) foreach (explode(',', $customerIds) as $customerId) {
             $updateCustomer = $this->pdo->prepare(
                 'UPDATE customers SET `branch_id` = :branchId WHERE `id` = :id'
             );
