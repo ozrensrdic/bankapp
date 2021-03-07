@@ -13,6 +13,32 @@ class AddBranchController extends Controller
      */
     protected function run(): Response
     {
-        return $this->response("Branch added");
+        $parsedBody = $this->request->getParsedBody();
+
+        $location = $parsedBody['location'];
+        $customerIds = $parsedBody['customers'];
+
+        $statement = $this->pdo->prepare(
+            "INSERT INTO branches (`location`) VALUES (:name)"
+        );
+
+        $statementParams = [':name' => $location];
+
+        $executed = $statement->execute($statementParams);
+
+        if (!$executed) {
+            throw new \Exception('Branch not added');
+        }
+
+        $branchId = $this->pdo->lastInsertId();
+        foreach (explode(',', $customerIds) as $customerId) {
+            $updateCustomer = $this->pdo->prepare(
+                'UPDATE customers SET `branch_id` = :branchId WHERE `id` = :id'
+            );
+
+            $updateCustomer->execute([':branchId' => $branchId, ':id' => $customerId]);
+        }
+
+        return $this->response("Branch $location added!");
     }
 }

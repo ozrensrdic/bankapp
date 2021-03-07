@@ -6,6 +6,7 @@ namespace App\Application\Actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use FaaPz\PDO\Database as Pdo;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 use Exception;
@@ -33,9 +34,14 @@ abstract class Controller
     protected array $args;
 
     /**
+     * Controller constructor.
      * @param LoggerInterface $logger
+     * @param Pdo $pdo
      */
-    public function __construct(protected LoggerInterface $logger){}
+    public function __construct(
+        protected LoggerInterface $logger,
+        protected Pdo $pdo
+    ){}
 
     /**
      * @param Request $request

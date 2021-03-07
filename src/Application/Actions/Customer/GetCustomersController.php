@@ -1,22 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Branch;
+namespace App\Application\Actions\Customer;
 
 use App\Application\Actions\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class GetBranchesController extends Controller
+class GetCustomersController extends Controller
 {
     /**
      * {@inheritdoc}
      */
     protected function run(): Response
     {
-        $statement = $this->pdo->query(
-            "SELECT b.* FROM customers as c " .
-            "RIGHT JOIN branches as b ON c.branch_id = b.id"
-        );
+        $statement = $this->pdo->query("SELECT * FROM customers");
 
         return $this->response($statement->fetchAll());
     }
