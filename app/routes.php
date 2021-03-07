@@ -14,6 +14,7 @@ use App\Application\Actions\Report\GetValuableBranchesController;
 use App\Application\Actions\Customer\AddCustomerController;
 use App\Application\Actions\Customer\GetCustomersController;
 use App\Application\Actions\Customer\GetCustomerByIdController;
+use App\Application\Actions\Transaction\SendAmountController;
 
 return function (App $app) {
 
@@ -30,16 +31,19 @@ return function (App $app) {
         $group->post('', AddBranchController::class);
     });
 
-    $app->group('/report', function (Group $group) {
-        $group->get('/branches/balance[/{balance}/{sort}]', GetBranchesBalancesController::class);
-        $group->get('/valuable/branches', GetValuableBranchesController::class);
-    });
-
-
-
     $app->group('/customers', function (Group $group) {
         $group->get('', GetCustomersController::class);
         $group->post('', AddCustomerController::class);
         $group->get('/{id}', GetCustomerByIdController::class);
+    });
+
+    $app->group('/transactions', function (Group $group) {
+        $group->post('/sender/{senderId}/receiver/{receiverId}', SendAmountController::class);
+
+    });
+
+    $app->group('/reports', function (Group $group) {
+        $group->get('/branches/balance[/{balance}/{sort}]', GetBranchesBalancesController::class);
+        $group->get('/valuable/branches', GetValuableBranchesController::class);
     });
 };
