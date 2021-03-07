@@ -43,7 +43,6 @@ class GetBranchesBalancesController extends Controller
 
         array_multisort($branches, $sortOrder, array_keys($branches));
 
-        var_dump($branches);
         return $this->response($branches);
     }
 
