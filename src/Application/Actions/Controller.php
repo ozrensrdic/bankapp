@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
+use App\Domain\Repository\CustomerRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -37,10 +38,12 @@ abstract class Controller
      * Controller constructor.
      * @param LoggerInterface $logger
      * @param Pdo $pdo
+     * @param CustomerRepository $customerRepository
      */
     public function __construct(
         protected LoggerInterface $logger,
-        protected Pdo $pdo
+        protected Pdo $pdo,
+        protected CustomerRepository $customerRepository
     ){}
 
     /**
