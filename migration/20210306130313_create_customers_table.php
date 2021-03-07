@@ -12,10 +12,10 @@ class CreateCustomersTable extends AbstractMigration
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `name` varchar(255) NOT NULL,
                 `balance` decimal(11,3) NOT NULL,
-                `branch` int(11) NOT NULL,
-                `created_at` datetime NOT NULL,
+                `branch_id` int(11),
+                `created_at` timestamp NOT NULL DEFAULT NOW(),
                 PRIMARY KEY (`id`),
-                FOREIGN KEY (`branch`) REFERENCES branches(`id`)
+                FOREIGN KEY (`branch_id`) REFERENCES branches(`id`)
             );'
         );
     }

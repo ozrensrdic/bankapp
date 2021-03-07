@@ -11,7 +11,7 @@ class CreateBranchesTable extends AbstractMigration
         $this->execute('CREATE TABLE `branches` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `location` varchar(255) NOT NULL,
-                `created_at` datetime NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT NOW(),
                 PRIMARY KEY (`id`)
             );'
         );
