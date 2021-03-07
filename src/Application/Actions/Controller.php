@@ -105,13 +105,18 @@ abstract class Controller
 
     /**
      * @param  string $name
+     * @param  mixed $defaultValue
      * @return mixed
      * @throws HttpBadRequestException
      */
-    protected function resolveArg(string $name): mixed
+    protected function resolveArg(string $name, mixed $defaultValue = null): mixed
     {
-        if (!isset($this->args[$name])) {
+        if (!isset($this->args[$name]) && (!$defaultValue)) {
             throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
+        }
+
+        if (!isset($this->args[$name]) && $defaultValue) {
+            return $defaultValue;
         }
 
         return $this->args[$name];
