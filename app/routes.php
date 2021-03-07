@@ -9,6 +9,7 @@ use FaaPz\PDO\Database as Pdo;
 use App\Application\Actions\Branch\AddBranchController;
 use App\Application\Actions\Branch\GetBranchByIdController;
 use App\Application\Actions\Branch\GetBranchesController;
+use App\Application\Actions\Report\GetBranchesBalancesController;
 use App\Application\Actions\Customer\AddCustomerController;
 use App\Application\Actions\Customer\GetCustomersController;
 use App\Application\Actions\Customer\GetCustomerByIdController;
@@ -27,6 +28,12 @@ return function (App $app) {
         $group->get('/{id}', GetBranchByIdController::class);
         $group->post('', AddBranchController::class);
     });
+
+    $app->group('/report', function (Group $group) {
+        $group->get('/branches/balance[/{balance}/{sort}]', GetBranchesBalancesController::class);
+    });
+
+
 
     $app->group('/customers', function (Group $group) {
         $group->get('', GetCustomersController::class);
