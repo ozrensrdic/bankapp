@@ -15,6 +15,7 @@ use App\Application\Actions\Customer\AddCustomerController;
 use App\Application\Actions\Customer\GetCustomersController;
 use App\Application\Actions\Customer\GetCustomerByIdController;
 use App\Application\Actions\Transaction\SendAmountController;
+use App\Application\Actions\Docs\SwaggerAction;
 
 return function (App $app) {
 
@@ -46,4 +47,7 @@ return function (App $app) {
         $group->get('/branches/balance[/{balance}/{sort}]', GetBranchesBalancesController::class);
         $group->get('/valuable/branches', GetValuableBranchesController::class);
     });
+
+    $app->get('/docs/v1', SwaggerAction::class);
+
 };

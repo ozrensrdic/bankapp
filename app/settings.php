@@ -24,6 +24,9 @@ return function (ContainerBuilder $containerBuilder) {
                     'charset' => 'utf8',
                     'user' => 'root',
                     'password' => ''
+                ],
+                'twig' => [
+                    'path' => './../templates/docs',
                 ]
             ]);
         }

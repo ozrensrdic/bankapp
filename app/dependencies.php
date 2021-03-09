@@ -9,6 +9,7 @@ use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use FaaPz\PDO\Database as Pdo;
+use Slim\Views\Twig;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -38,6 +39,14 @@ return function (ContainerBuilder $containerBuilder) {
             $pdo = new Pdo($dsn, $user, $password);
 
             return $pdo;
-        }
+        },
+        Twig::class => function (ContainerInterface $container) {
+            $settings = $container->get(SettingsInterface::class);
+
+            $twigSettings = $settings->get('twig');
+            $twig = Twig::create($twigSettings['path']);
+
+            return $twig;
+        },
     ]);
 };
