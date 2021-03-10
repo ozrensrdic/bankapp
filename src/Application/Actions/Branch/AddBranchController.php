@@ -37,7 +37,7 @@ class AddBranchController extends Controller
                 'UPDATE customers SET `branch_id` = :branchId WHERE `id` = :id'
             );
 
-            $updateCustomer->execute([':branchId' => $branchId, ':id' => $customerId]);
+            $updateCustomer->execute([':branchId' => $branchId, ':id' => (int) $customerId]);
         }
 
         return $this->response("Branch $location added!");

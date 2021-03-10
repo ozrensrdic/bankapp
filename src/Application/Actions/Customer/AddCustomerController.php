@@ -16,7 +16,7 @@ class AddCustomerController extends Controller
         $parsedBody = $this->request->getParsedBody();
 
         $name = $parsedBody['name'];
-        $balance = $parsedBody['balance'];
+        $balance = (float) $parsedBody['balance'];
 
         $statement = $this->pdo->prepare(
             "INSERT INTO customers (`name`, `balance`) VALUES (:name, :balance)"

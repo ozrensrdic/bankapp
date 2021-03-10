@@ -13,7 +13,7 @@ class GetBranchByIdController extends Controller
      */
     protected function run(): Response
     {
-        $id = $this->resolveArg('id');
+        $id = (int) $this->resolveArg('id');
         $statement = $this->pdo->prepare("SELECT * FROM branches WHERE `id` = :id");
         $statement->bindParam(':id', $id);
         $statement->execute();
