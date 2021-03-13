@@ -160,8 +160,42 @@ paths:
                 - amount
       responses:
         '200':
-          description: Null response
+          description: Report
+          headers:
+          content:
+            application/json:
 
+  /reports/branches/balance/{balance}/{sort}:
+    get:
+      summary: Balance report
+      operationId: balanceReport
+      tags:
+        - reports
+      parameters:
+        - in: path
+          name: balance
+          required: false
+          schema:
+            type: string
+          description: highest or lowest values
+        - in: path
+          name: sort
+          required: false
+          schema:
+            type: string
+          description: asc or desc values
+      responses:
+        '200':
+          description: Null response
+  /reports/valuable/branches:
+    get:
+      summary: Valuable branches report
+      operationId: valuableBranchesReport
+      tags:
+        - reports
+      responses:
+        '200':
+          description: Null response
 components:
   schemas:
     Branch:
