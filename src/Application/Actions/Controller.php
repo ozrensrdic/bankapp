@@ -6,6 +6,7 @@ namespace App\Application\Actions;
 use App\Domain\Entity;
 use App\Domain\Hydrator\Hydrator;
 use App\Domain\Repository\CustomerRepository;
+use App\Domain\Repository\BranchRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -53,6 +54,7 @@ abstract class Controller
      * @param LoggerInterface $logger
      * @param Pdo $pdo
      * @param CustomerRepository $customerRepository,
+     * @param BranchRepository $branchRepository,
      * @param ValidatorInterface $validation
      * @param Hydrator $hydrator
      */
@@ -60,6 +62,7 @@ abstract class Controller
         protected LoggerInterface $logger,
         protected Pdo $pdo,
         protected CustomerRepository $customerRepository,
+        protected BranchRepository $branchRepository,
         protected ValidatorInterface $validation,
         protected Hydrator $hydrator
     ){}

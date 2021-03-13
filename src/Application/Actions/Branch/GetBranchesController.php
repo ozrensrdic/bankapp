@@ -13,11 +13,6 @@ class GetBranchesController extends Controller
      */
     protected function run(): Response
     {
-        $statement = $this->pdo->query(
-            "SELECT b.* FROM customers as c " .
-            "RIGHT JOIN branches as b ON c.branch_id = b.id"
-        );
-
-        return $this->response($statement->fetchAll());
+        return $this->response($this->branchRepository->findAll());
     }
 }

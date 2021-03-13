@@ -14,11 +14,7 @@ class GetBranchByIdController extends Controller
     protected function run(): Response
     {
         $id = (int) $this->resolveArg('id');
-        $statement = $this->pdo->prepare("SELECT * FROM branches WHERE `id` = :id");
-        $statement->bindParam(':id', $id);
-        $statement->execute();
 
-        $branch = $statement->fetch();
-        return $this->response($branch);
+        return $this->response($this->branchRepository->findById($id));
     }
 }

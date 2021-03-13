@@ -20,30 +20,21 @@ class AddBranchController extends Controller
      */
     protected function run(): Response
     {
-        $statement = $this->pdo->prepare(
-            "INSERT INTO branches (`location`) VALUES (:location)"
-        );
+        /** @var Branch $branch */
+        $branch = $this->model;
+        $branchId = $this->branchRepository->insertBranch($branch);
 
-        $statementParams = [':location' => $this->model->getLocation()];
-
-        $executed = $statement->execute($statementParams);
-
-        if (!$executed) {
+        if (!$branchId) {
             throw new \Exception('Branch not added', StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY);
         }
 
-        $branchId = $this->pdo->lastInsertId();
         $customerIds = $this->model->getCustomers();
 
         if ($customerIds) foreach (explode(',', $customerIds) as $customerId) {
-            $updateCustomer = $this->pdo->prepare(
-                'UPDATE customers SET `branch_id` = :branchId WHERE `id` = :id'
-            );
-
-            $updateCustomer->execute([':branchId' => $branchId, ':id' => (int) $customerId]);
+            $this->customerRepository->setBranch($branchId, (int) $customerId);
         }
 
-        return $this->response("Branch {$this->model->getLocation()} added!");
+        return $this->response("Branch {$branch->getLocation()} added!");
     }
 
     protected function initializeModel()

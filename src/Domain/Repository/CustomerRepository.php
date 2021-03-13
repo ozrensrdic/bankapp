@@ -59,6 +59,20 @@ class CustomerRepository implements BaseRepositoryInterface
     }
 
     /**
+     * @param int $branchId
+     * @param int $customerId
+     * @param bool
+     */
+    public function setBranch(int $branchId, int $customerId): bool
+    {
+        $updateCustomer = $this->pdo->prepare(
+            'UPDATE customers SET `branch_id` = :branchId WHERE `id` = :id'
+        );
+
+        return $updateCustomer->execute([':branchId' => $branchId, ':id' => (int) $customerId]);
+    }
+
+    /**
      * @param Customer $customer
      *
      * @return array
