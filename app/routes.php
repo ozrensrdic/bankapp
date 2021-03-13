@@ -20,7 +20,6 @@ use App\Application\Actions\Docs\SwaggerAction;
 return function (App $app) {
 
     $app->get('/', function (Request $request, Response $response) {
-
         return $response->withHeader('Location', '/docs/v1/');
     });
 
@@ -38,7 +37,6 @@ return function (App $app) {
 
     $app->group('/transactions', function (Group $group) {
         $group->post('/sender/{senderId}/receiver/{receiverId}', SendAmountController::class);
-
     });
 
     $app->group('/reports', function (Group $group) {

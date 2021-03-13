@@ -18,10 +18,10 @@ class BranchRepository implements BaseRepositoryInterface
      * @param Branch $branch
      * @return int|null
      */
-    public function insertBranch(Branch $branch): string|null
+    public function insertBranch(Branch $branch): int|null
     {
         $statement = $this->pdo->prepare(
-            "INSERT INTO branches (`location`) VALUES (:location,)"
+            "INSERT INTO branches (`location`) VALUES (:location)"
         );
 
         if (!$statement->execute($this->toRow($branch))) {
@@ -36,7 +36,8 @@ class BranchRepository implements BaseRepositoryInterface
      */
     public function findAll(): array
     {
-        $statement = $this->pdo->prepare("SELECT * FROM branches");
+        $statement = $this->pdo->query("SELECT b.* FROM customers as c " .
+            "RIGHT JOIN branches as b ON c.branch_id = b.id");
 
         return $statement->fetchAll();
     }

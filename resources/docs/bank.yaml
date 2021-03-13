@@ -44,6 +44,28 @@ paths:
       responses:
         '200':
           description: Null response
+  /branches/{id}:
+    get:
+      summary: List all branches
+      operationId: listBranches
+      tags:
+        - branches
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The branch ID
+      responses:
+        '200':
+          description: Array of branches
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Branch"
   /customers:
     get:
       summary: List all customers
@@ -81,6 +103,28 @@ paths:
       responses:
         '200':
           description: Null response
+  /customers/{id}:
+    get:
+      summary: Customer
+      operationId: getCustomer
+      tags:
+        - customers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The customer ID
+      responses:
+        '200':
+          description: Customer
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
   /transactions/sender/{senderId}/receiver/{receiverId}:
     post:
       summary: Make transaction

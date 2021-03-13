@@ -36,7 +36,7 @@ class CustomerRepository implements BaseRepositoryInterface
      */
     public function findAll(): array
     {
-        $statement = $this->pdo->prepare("SELECT * FROM customers");
+        $statement = $this->pdo->query("SELECT * FROM customers");
 
         return $statement->fetchAll();
     }
