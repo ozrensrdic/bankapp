@@ -13,8 +13,6 @@ class GetCustomersController extends Controller
      */
     protected function run(): Response
     {
-        $statement = $this->pdo->query("SELECT * FROM customers");
-
-        return $this->response($statement->fetchAll());
+        return $this->response($this->customerRepository->findAll());
     }
 }

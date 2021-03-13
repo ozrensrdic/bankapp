@@ -3,15 +3,33 @@ declare(strict_types=1);
 
 namespace App\Domain\Repository;
 
+use App\Domain\Customer\Customer;
 use FaaPz\PDO\Database as Pdo;
 
-class CustomerRepository
+class CustomerRepository implements BaseRepositoryInterface
 {
     /**
      * CustomerRepository constructor.
      * @param Pdo $pdo
      */
     public function __construct(protected PDO $pdo) {}
+
+    /**
+     * @param Customer $customer
+     * @return string|null
+     */
+    public function insertCustomer(Customer $customer): string|null
+    {
+        $statement = $this->pdo->prepare(
+            "INSERT INTO customers (`name`, `balance`) VALUES (:name, :balance)"
+        );
+
+        if (!$statement->execute($this->toRow($customer))) {
+            return null;
+        }
+
+        return $this->pdo->lastInsertId();
+    }
 
     /**
      * @return array
@@ -38,5 +56,18 @@ class CustomerRepository
         }
 
         return $customer;
+    }
+
+    /**
+     * @param Customer $customer
+     *
+     * @return array
+     */
+    private function toRow(Customer $customer): array
+    {
+        return [
+            ':name' => $customer->getName(),
+            ':balance' => $customer->getBalance()
+        ];
     }
 }

@@ -16,22 +16,25 @@ class AddCustomerController extends Controller
      */
     protected function run(): Response
     {
-        $statement = $this->pdo->prepare(
-            "INSERT INTO customers (`name`, `balance`) VALUES (:name, :balance)"
-        );
+        /** @var Customer $customer */
+        $customer = $this->model;
+        $lastInsertId = $this->customerRepository->insertCustomer($customer);
 
-        $statementParams = [':name' => $this->model->getName(), ':balance' => $this->model->getBalance()];
-
-        $executed = $statement->execute($statementParams);
-        if (!$executed) {
-            throw new \Exception('Customer not added');
+        if (!$lastInsertId) {
+            throw new \Exception();
         }
 
-        return $this->response("Customer {$this->model->getName()} added!");
+        return $this->response("Customer {$customer->getName()} added!");
     }
 
     protected function initializeModel()
     {
-        $this->model = $this->hydrator->factory($this->modelClass, $this->request->getParsedBody());
+        $parsedBody = $this->request->getParsedBody();
+        $data = [
+            'name' => $parsedBody['name'] ?? '',
+            'balance' => $parsedBody['balance'] ? (float) $parsedBody['balance'] : (float) 0
+        ];
+
+        $this->model = $this->hydrator->factory($this->modelClass, $data);
     }
 }

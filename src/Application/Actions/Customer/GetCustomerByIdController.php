@@ -13,13 +13,6 @@ class GetCustomerByIdController extends Controller
      */
     protected function run(): Response
     {
-        $id = (int) $this->resolveArg('id');
-        $statement = $this->pdo->prepare("SELECT * FROM customers WHERE `id` = :id");
-        $statement->bindParam(':id', $id);
-        $statement->execute();
-
-        $customer = $statement->fetch();
-
-        return $this->response($customer);
+        return $this->response($this->customerRepository->findById((int) $this->resolveArg('id')));
     }
 }
