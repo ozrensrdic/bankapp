@@ -164,6 +164,15 @@ paths:
           headers:
           content:
             application/json:
+  /transactions:
+    get:
+      summary: List of the transactions
+      operationId: transactionList
+      tags:
+        - transactions
+      responses:
+        '200':
+          description: Null response
 
   /reports/branches/balance/{balance}/{sort}:
     get:
