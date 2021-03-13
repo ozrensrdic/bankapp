@@ -10,6 +10,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use FaaPz\PDO\Database as Pdo;
 use Slim\Views\Twig;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Domain\Hydrator\Hydrator;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -47,6 +50,13 @@ return function (ContainerBuilder $containerBuilder) {
             $twig = Twig::create($twigSettings['path']);
 
             return $twig;
+        },
+        ValidatorInterface::class => function (ContainerInterface $container) {
+            $builder =  Validation::createValidatorBuilder();
+            return $builder->enableAnnotationMapping(true)->addDefaultDoctrineAnnotationReader()->getValidator();
+        },
+        Hydrator::class => function (ContainerInterface $container) {
+            return new Hydrator();
         },
     ]);
 };

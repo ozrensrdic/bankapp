@@ -23,7 +23,7 @@ return function (ContainerBuilder $containerBuilder) {
                     'dbName' => 'bankapp',
                     'charset' => 'utf8',
                     'user' => 'root',
-                    'password' => ''
+                    'password' => 'root'
                 ],
                 'twig' => [
                     'path' => './../templates/docs',

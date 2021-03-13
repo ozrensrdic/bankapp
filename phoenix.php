@@ -10,7 +10,7 @@ return [
             'host' => 'localhost',
             'port' => 3306, // optional
             'username' => 'root',
-            'password' => '',
+            'password' => 'root',
             'db_name' => 'bankapp',
             'charset' => 'utf8',
         ]

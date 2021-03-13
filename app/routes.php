@@ -20,10 +20,8 @@ use App\Application\Actions\Docs\SwaggerAction;
 return function (App $app) {
 
     $app->get('/', function (Request $request, Response $response) {
-        $pdo = $this->get(Pdo::class);
 
-        $response->getBody()->write('Hello world! Banking App');
-        return $response;
+        return $response->withHeader('Location', '/docs/v1/');
     });
 
     $app->group('/branches', function (Group $group) {
@@ -48,6 +46,6 @@ return function (App $app) {
         $group->get('/valuable/branches', GetValuableBranchesController::class);
     });
 
-    $app->get('/docs/v1', SwaggerAction::class);
+    $app->get('/docs/v1/', SwaggerAction::class);
 
 };

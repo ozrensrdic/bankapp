@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
+use App\Domain\Entity;
+use App\Domain\Hydrator\Hydrator;
 use App\Domain\Repository\CustomerRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -10,6 +12,8 @@ use Psr\Log\LoggerInterface;
 use FaaPz\PDO\Database as Pdo;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 
 abstract class Controller
@@ -35,15 +39,29 @@ abstract class Controller
     protected array $args;
 
     /**
+     * @var null|Entity
+     */
+    protected ?Entity $model;
+
+    /**
+     * @var ?string
+     */
+    protected string $modelClass = '';
+
+    /**
      * Controller constructor.
      * @param LoggerInterface $logger
      * @param Pdo $pdo
-     * @param CustomerRepository $customerRepository
+     * @param CustomerRepository $customerRepository,
+     * @param ValidatorInterface $validation
+     * @param Hydrator $hydrator
      */
     public function __construct(
         protected LoggerInterface $logger,
         protected Pdo $pdo,
-        protected CustomerRepository $customerRepository
+        protected CustomerRepository $customerRepository,
+        protected ValidatorInterface $validation,
+        protected Hydrator $hydrator
     ){}
 
     /**
@@ -58,13 +76,20 @@ abstract class Controller
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
-
         try {
+            $this->initializeModel();
+
+            $this->validateInput();
             return $this->process();
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             throw new HttpNotFoundException($this->request, $e->getMessage());
         }
+    }
+
+    protected function initializeModel()
+    {
+        $this->model = null;
     }
 
     /**
@@ -87,6 +112,24 @@ abstract class Controller
      * @throws Exception
      */
     abstract protected function run();
+
+    /**
+     * @throws Exception
+     */
+    protected function validateInput()
+    {
+        if (empty($this->model)) {
+            return;
+        }
+
+        $errors = $this->validation->validate($this->model);
+        if (count($errors)) {
+            /** @var ConstraintViolation $error */
+            foreach ($errors as $error) {
+                throw new Exception('field ' . $error->getPropertyPath() .' :'. $error->getMessage());
+            }
+        }
+    }
 
     /**
      * @param array|string $payload

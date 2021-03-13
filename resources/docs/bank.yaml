@@ -41,7 +41,6 @@ paths:
                   example: 1,2
               required:
                 - location
-                - customers
       responses:
         '200':
           description: Null response
@@ -76,10 +75,9 @@ paths:
                   example: Bruce
                 balance:
                   type: float
-                  example: 750000,00
+                  example: 750000
               required:
                 - name
-                - balance
       responses:
         '200':
           description: Null response
