@@ -3,27 +3,45 @@ declare(strict_types=1);
 
 namespace App\Domain\Customer;
 
-class Customer
+use App\Domain\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Customer extends Entity
 {
+    public static array $hydratorMap = [
+        'name' => 'name',
+        'balance' => 'balance'
+    ];
+
     /**
      * @var int
      */
     private int $id;
 
     /**
-     * @var string
+     * @var ?string
+     * @Assert\NotBlank
      */
-    private string $name;
+    private ?string $name;
 
     /**
-     * @var float
+     * @var string|float
+     * @Assert\Type(
+     *     type="float",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
-    private float $balance;
+    private string|float $balance;
 
     /**
      * @var int
      */
     private int $branch;
+
+    /**
+     * @var string
+     */
+    private string $createdAt;
 
     /**
      * @return int|null
@@ -57,7 +75,7 @@ class Customer
      */
     public function getBalance(): float
     {
-        return $this->balance;
+        return (float) $this->balance;
     }
 
     /**
@@ -86,6 +104,25 @@ class Customer
     public function setBranch(int $branch): Customer
     {
         $this->branch = $branch;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $timestamp;
+     * @return $this
+     */
+    public function setCreatedAt(string $timestamp): Customer
+    {
+        $this->createdAt = $timestamp;
+
         return $this;
     }
 }
