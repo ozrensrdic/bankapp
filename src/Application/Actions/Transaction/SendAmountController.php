@@ -87,6 +87,10 @@ class SendAmountController extends Controller
             throw new Exception('Receiver does not have selected branch');
         }
 
+        if ($this->sender['id'] === $this->receiver['id']) {
+            throw new Exception('Transaction must be between different users.');
+        }
+
         if (!($this->amount > 0)) {
             throw new Exception('Insufficient amount');
         }
