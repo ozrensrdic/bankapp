@@ -79,6 +79,14 @@ class SendAmountController extends Controller
 
     protected function validate()
     {
+        if (!isset($this->sender['branch_id'])) {
+            throw new Exception('Sender does not have selected branch');
+        }
+
+        if (!isset($this->receiver['branch_id'])) {
+            throw new Exception('Receiver does not have selected branch');
+        }
+
         if (!($this->amount > 0)) {
             throw new Exception('Insufficient amount');
         }
